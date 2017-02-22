@@ -9,7 +9,7 @@ Alias /rutorrent "/srv/rutorrent"
   Order allow,deny
   allow from all
 </Directory>
-Alias /USERNAME.rtorrent.downloads "/home/USERNAME/torrents/rtorrent/"
+#Alias /USERNAME.rtorrent.downloads "/home/USERNAME/torrents/rtorrent/"
 <Directory "/home/USERNAME/torrents/rtorrent/">
   Options Indexes FollowSymLinks MultiViews
   AuthType Digest
@@ -21,7 +21,7 @@ Alias /USERNAME.rtorrent.downloads "/home/USERNAME/torrents/rtorrent/"
   allow from all
   php_admin_value engine Off
 </Directory>
-Alias /USERNAME.deluge.downloads "/home/USERNAME/torrents/deluge/"
+#Alias /USERNAME.deluge.downloads "/home/USERNAME/torrents/deluge/"
 <Directory "/home/USERNAME/torrents/deluge/">
   Options Indexes FollowSymLinks MultiViews
   AuthType Digest
