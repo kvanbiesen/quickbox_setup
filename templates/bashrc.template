@@ -1442,7 +1442,7 @@ if [[ -f /install/.deluge.lock ]]; then
 fi
 
 cat >/etc/apache2/sites-enabled/alias.${username}.download.conf<<AS
-Alias /${username}.rtorrent.downloads "/home/${username}/torrents/rtorrent"
+#Alias /${username}.rtorrent.downloads "/home/${username}/torrents/rtorrent"
   <Directory "/home/${username}/torrents/rtorrent">
    Options Indexes FollowSymLinks MultiViews
     AllowOverride None
@@ -1454,7 +1454,7 @@ Alias /${username}.rtorrent.downloads "/home/${username}/torrents/rtorrent"
     Allow from all
     php_admin_value engine Off
   </Directory>
-Alias /${username}.deluge.downloads "/home/${username}/torrents/deluge"
+#Alias /${username}.deluge.downloads "/home/${username}/torrents/deluge"
   <Directory "/home/${username}/torrents/deluge">
     Options Indexes FollowSymLinks MultiViews
     AllowOverride None
@@ -1473,6 +1473,11 @@ Alias /${username}.deluge.downloads "/home/${username}/torrents/deluge"
       Require user ${username}
   </Location>
 AS
+
+echo -n "Setting up modern file-system indexer (h5ai) for $username ... "
+  cd /srv/rutorrent/home
+  ln -s /home/${username}/torrents/rtorrent/ ${username}.rtorrent.downloads
+  ln -s /home/${username}/torrents/deluge/ ${username}.deluge.downloads
 
 local_setup=/etc/QuickBox/setup/
 PUBLICIP=$(ip route get 8.8.8.8 | awk 'NR==1 {print $NF}')
