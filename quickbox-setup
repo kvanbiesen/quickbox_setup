@@ -729,6 +729,17 @@ function _dashboard() {
   touch /srv/rutorrent/home/db/output.log
 }
 
+# function to install dashboard (23)
+function _fileindexer() {
+  cd /srv/rutorrent/home
+  wget https://release.larsjung.de/h5ai/h5ai-0.29.0.zip
+  unzip h5ai-0.29.0.zip
+  rm –rf h5ai-0.29.0.zip
+  chmod 775 -R _h5ai/private/cache && chmod 775 -R _h5ai/public/cache
+  apt -y install imagemagick
+  echo "DirectoryIndex index.html index.php /_h5ai/public/index.php" >> /etc/apache2/apache2.conf
+}
+
 # function to configure apache (24)
 function _apacheconf() {
   cp ${local_setup}templates/aliases-seedbox.conf.template /etc/apache2/sites-enabled/aliases-seedbox.conf
@@ -1184,6 +1195,7 @@ echo -n "Installing rutorrent plugins ... ";_rutorrent-plugins & spinner $!;echo
 echo -n "Installing deluge ... ";_deluge & spinner $!;echo
 echo -n "Installing mktorrent from source ... ";_mktorrent & spinner $!;echo
 echo -n "Installing quickbox dashboard ... ";_dashboard & spinner $!;echo
+echo -n "Building system file indexer (h5ai) ... ";_fileindexer & spinner $!;echo
 echo -n "Setting up seedbox.conf for apache ... ";_apacheconf & spinner $!;echo
 echo -n "Installing .rtorrent.rc for ${username} ... ";_rconf & spinner $!;echo
 echo -n "Adjusting fileupload & filemanager plugins ... ";_plugins & spinner $!;echo
