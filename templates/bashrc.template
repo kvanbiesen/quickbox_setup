@@ -17,7 +17,7 @@
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
-QUICKBOX_VERSION=2.4.8
+QUICKBOX_VERSION=2.4.9
 
 export TERM=xterm;TERM=xterm
 export PATH=/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/home/quickbox/.bin/:/usr/local/bin/quickbox/:/usr/local/bin/quickbox/package/:/usr/local/bin/quickbox/package/install/:/usr/local/bin/quickbox/package/remove/:/usr/local/bin/quickbox/plugin/:/usr/local/bin/quickbox/plugin/install/:/usr/local/bin/quickbox/plugin/remove/:/usr/local/bin/quickbox/system/:/usr/local/bin/quickbox/system/lang/
@@ -148,27 +148,43 @@ NC="\e[m"               # Color Reset
   ALERT=${BWhite}${On_Red} # Bold White on red background
   date=`date`
 
+
   echo ""
   echo ""
   echo "|========================================================================|"
-  echo -e "        ${BCyan}You are running QuickBox v${BRed}${QUICKBOX_VERSION}${BCyan} - on ${BRed}$DISPLAY${NC}          "
-  echo -e "                    ${BCyan}Your BASH version is ${BRed}${BASH_VERSION%.*}${BCyan}${NC}                             "
-  echo "                  $date                           "
   echo "|------------------------------------------------------------------------|"
-  echo "|  Just type any one of the following commands                           |"
-  echo "|  to turn on different bash prompts                                     |"
+  echo "|  ###################   This Server is OFF limits   ####################|"
   echo "|------------------------------------------------------------------------|"
-  echo -e "|  ${BGreen}commandprompt_on${NC}                                                      |"
-  echo "|  this prompt shows last command used & more                            |"
-  echo -e "|  ${BGreen}powerprompt_on${NC} (default)                                              |"
-  echo "|  this prompt shows colorful system data - cpu, load etc.               |"
-  echo -e "|  ${BGreen}basicprompt_on${NC}                                                        |"
-  echo "|  this prompt shows color coded load & cpu avg                          |"
-  echo -e "|  ${BGreen}prompt_OFF${NC}                                                            |"
-  echo "|  this turns off prompts and goes back to default                       |"
+  echo -e "     ${BCyan}You are running QuickBox v${BRed}${QUICKBOX_VERSION}${NC}"
+  echo -e "     ${BCyan}Your logged IP is ${BRed}$DISPLAY${NC}"
+  echo -e "     ${BCyan}Your BASH version is ${BRed}${BASH_VERSION%.*}${BCyan}${NC}"
+  echo "     $date"
   echo "|========================================================================|"
   echo ""
   echo ""
+
+
+  ##echo ""
+  ##echo ""
+  ##echo "|========================================================================|"
+  ##echo -e "        ${BCyan}You are running QuickBox v${BRed}${QUICKBOX_VERSION}${BCyan} - on ${BRed}$DISPLAY${NC}          "
+  ##echo -e "                    ${BCyan}Your BASH version is ${BRed}${BASH_VERSION%.*}${BCyan}${NC}                             "
+  ##echo "                  $date                           "
+  ##echo "|------------------------------------------------------------------------|"
+  ##echo "|  Just type any one of the following commands                           |"
+  ##echo "|  to turn on different bash prompts                                     |"
+  ##echo "|------------------------------------------------------------------------|"
+  ##echo -e "|  ${BGreen}commandprompt_on${NC}                                                      |"
+  ##echo "|  this prompt shows last command used & more                            |"
+  ##echo -e "|  ${BGreen}powerprompt_on${NC} (default)                                              |"
+  ##echo "|  this prompt shows colorful system data - cpu, load etc.               |"
+  ##echo -e "|  ${BGreen}basicprompt_on${NC}                                                        |"
+  ##echo "|  this prompt shows color coded load & cpu avg                          |"
+  ##echo -e "|  ${BGreen}prompt_OFF${NC}                                                            |"
+  ##echo "|  this turns off prompts and goes back to default                       |"
+  ##echo "|========================================================================|"
+  ##echo ""
+  ##echo ""
 
 if [ -x /usr/games/fortune ]; then
     /usr/games/fortune -s     # Makes our day a bit more fun.... :-)
