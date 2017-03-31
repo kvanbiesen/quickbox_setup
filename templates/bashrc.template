@@ -1576,8 +1576,8 @@ echo ${OK}
 }
 
 function upgradeBTSync() {
-  apt-get install -yqq -f --only-upgrade btsync
-  service btsync restart
+  apt-get install -yqq -f --only-upgrade resilio-sync
+  service resilio-sync restart
 }
 
 function upgradePlex() {
