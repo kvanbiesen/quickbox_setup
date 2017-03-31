@@ -1837,29 +1837,35 @@ function upgradePlex() {
 }
 
 
-function upgradePlexRequests {
+function upgradeOmbi {
   user=$(cat /srv/rutorrent/home/db/master.txt)
-  echo -e "Stopping PlexRequests Service ... "
-  systemctl stop plexrequests
+  echo -e "Stopping Ombi Service ... "
+  if [[ -f /etc/systemd/system/plexrequests.service ]]; then
+    systemctl stop plexrequests
+  else
+   systemctl stop ombi
+  fi
   cd /opt
   if [[ -f plexrequests/PlexRequests.sqlite ]]; then
-    mv plexrequests/PlexRequests.sqlite plexrequests/Ombi.sqlite
+    mv plexrequests ombi
+    mv ombi/PlexRequests.sqlite ombi/Ombi.sqlite
     sed -i "s/PlexRequests.exe/Ombi.exe/g" /etc/systemd/system/plexrequests.service
+    mv /etc/systemd/system/plexrequests.service /etc/systemd/system/ombi.service
     systemctl daemon-reload
   fi
-  if [[ -f PlexRequests.zip ]]; then rm -f PlexRequests.zip; fi
+  if [[ -f Ombi.zip ]]; then rm -f Ombi.zip; fi
   echo -e "Backing up your database ... "
-  cp plexrequests/Ombi.sqlite .
+  cp ombi/Ombi.sqlite .
   echo -e "Installing newest version ... "
-  rm -rf plexrequests
-  curl -sL https://git.io/vKEJz | grep release | grep zip | cut -d "\"" -f 2 | sed -e 's/\/tidusjar/https:\/\/github.com\/tidusjar/g' | xargs wget --quiet -O PlexRequests.zip >/dev/null 2>&1
-  unzip PlexRequests.zip >/dev/null 2>&1
-  mv Release plexrequests
-  mv Ombi.sqlite plexrequests
-  if [[ -f PlexRequests.zip ]]; then rm -f PlexRequests.zip; fi
-  chown -R ${user}: plexrequests
-  echo -e "Starting PlexRequests ... "
-  systemctl start plexrequests
+  rm -rf ombi
+  curl -sL https://git.io/vKEJz | grep release | grep zip | cut -d "\"" -f 2 | sed -e 's/\/tidusjar/https:\/\/github.com\/tidusjar/g' | xargs wget --quiet -O Ombi.zip >/dev/null 2>&1
+  unzip Ombi.zip >/dev/null 2>&1
+  mv Release ombi
+  mv Ombi.sqlite ombi
+  if [[ -f Ombi.zip ]]; then rm -f Ombi.zip; fi
+  chown -R ${user}: ombi
+  echo -e "Starting Ombi ... "
+  systemctl start ombi
   echo -e "Done! ... "
 }
 
