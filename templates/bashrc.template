@@ -1552,6 +1552,7 @@ if [[ ! -f /install/.cron.lock ]]; then
     systemctl stop deluge-web@${username}
     systemctl disable deluged@${username}
     systemctl disable deluge-web@${username}
+    rm -rf ${rutorrent}/home/${username}.deluge.downloads >/dev/null 2>&1
   fi
 fi
 killall -u ${username}
@@ -1559,11 +1560,15 @@ userdel -rf ${username} >/dev/null 2>&1
 groupdel ${username} >/dev/null 2>&1
 sed -i "/${username}/d" /etc/apache2/sites-enabled/scgimount.conf
 sed -i "/${username}/d" ${htpasswd}
+rm -rf /etc/apache2/sites-enabled/alias.${username}.console.conf  >/dev/null 2>&1
 rm -rf /etc/apache2/sites-enabled/alias.${username}.download.conf  >/dev/null 2>&1
 rm -rf ${rutorrent}/conf/users/${username} >/dev/null 2>&1
 rm -rf ${rutorrent}/share/users/${username} >/dev/null 2>&1
+rm -rf ${rutorrent}/home/${username}.rtorrent.downloads >/dev/null 2>&1
 rm -rf /var/spool/cron/crontabs/${username} >/dev/null 2>&1
 rm -rf /home/${username} >/dev/null 2>&1
+rm -rf /root/${username}.info.db >/dev/null 2>&1
+rm -rf /root/${username}.info >/dev/null 2>&1
 rm -rf /var/run/screen/S-${username} >/dev/null 2>&1
 rm -rf /etc/openvpn/server-${username}.conf >/dev/null 2>&1
 service apache2 reload
