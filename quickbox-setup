@@ -756,6 +756,8 @@ function _apacheconf() {
   sed -i "s/\"REALM\"/\"${REALM}\"/g" /etc/apache2/sites-enabled/default-ssl.conf
   sed -i "s/HTPASSWD/\/etc\/htpasswd/g" /etc/apache2/sites-enabled/default-ssl.conf
   sed -i "s/PORT/${PORT}/g" /etc/apache2/sites-enabled/default-ssl.conf
+  sed -i "s/ServerTokens OS/ServerTokens Prod/g" /etc/apache2/conf-enabled/security.conf
+  sed -i "s/ServerSignature On/ServerSignature Off/g" /etc/apache2/conf-enabled/security.conf
   cp ${local_setup}templates/fileshare.conf.template /etc/apache2/sites-enabled/fileshare.conf
     sed -i.bak -e "s/post_max_size = 8M/post_max_size = 64M/" \
                -e "s/upload_max_filesize = 2M/upload_max_filesize = 92M/" \
