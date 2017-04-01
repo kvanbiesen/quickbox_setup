@@ -976,7 +976,6 @@ cat >/etc/profile<<EOF
 echo " Welcome Back !"
 echo "    * Dashboard:  https://${PUBLICIP}"
 echo "    * Support:    https://plaza.quickbox.io"
-echo "    * Roadmap:    https://quickbox.io/roadmap"
 echo "    * Donate:     https://quickbox.io/donate"
 echo ""
 EOF
