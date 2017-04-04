@@ -1952,8 +1952,10 @@ done
 function upgradeJackett() {
   OK=$(echo -e "[ \e[0;32mUpgrade Complete\e[00m ]")
   username=$(cat /srv/rutorrent/home/db/master.txt)
+  echo "Stopping Jackett"
+  systemctl stop jackett@${username}
   cd /home/${username}
-  jackettver=$(wget -q https://github.com/Jackett/Jackett/releases/latest -O - | grep -E \/tag\/ | awk -F "[><]" '{print $3}')
+  jackettver=$(wget -q https://github.com/Jackett/Jackett/releases/latest -O - | grep -E \/tag\/ | grep -v repository | awk -F "[><]" '{print $3}')
   echo "Setting up Jackett-${jackettver} in /home/${username}/Jackett ... "
   wget -q https://github.com/Jackett/Jackett/releases/download/$jackettver/Jackett.Binaries.Mono.tar.gz
   tar -xvzf Jackett.Binaries.Mono.tar.gz >/dev/null 2>&1
@@ -1961,6 +1963,8 @@ function upgradeJackett() {
   rm -f Jackett.Binaries.Mono.tar.gz
   echo "Adjusting permissions ... "
   chown ${username}.${username} -R Jackett
+  echo "Starting Jackett"
+  systemctl start jackett@${username}
   echo ${OK}
 }
 
