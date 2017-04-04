@@ -737,7 +737,7 @@ function _fileindexer() {
   rm –rf h5ai-0.29.0.zip >>"${OUTTO}" 2>&1
   chmod 775 -R _h5ai/private/cache && chmod 775 -R _h5ai/public/cache
   apt -y install imagemagick >>"${OUTTO}" 2>&1
-  echo "DirectoryIndex index.html index.php /_h5ai/public/index.php" >> /etc/apache2/apache2.conf
+  echo "#DirectoryIndex index.html index.php /_h5ai/public/index.php" >> /etc/apache2/apache2.conf
   ln -s /home/${username}/torrents/rtorrent/ ${username}.rtorrent.downloads
   ln -s /home/${username}/torrents/deluge/ ${username}.deluge.downloads
 }
@@ -756,6 +756,8 @@ function _apacheconf() {
   sed -i "s/\"REALM\"/\"${REALM}\"/g" /etc/apache2/sites-enabled/default-ssl.conf
   sed -i "s/HTPASSWD/\/etc\/htpasswd/g" /etc/apache2/sites-enabled/default-ssl.conf
   sed -i "s/PORT/${PORT}/g" /etc/apache2/sites-enabled/default-ssl.conf
+  sed -i "s/ServerTokens OS/ServerTokens Prod/g" /etc/apache2/conf-enabled/security.conf
+  sed -i "s/ServerSignature On/ServerSignature Off/g" /etc/apache2/conf-enabled/security.conf
   cp ${local_setup}templates/fileshare.conf.template /etc/apache2/sites-enabled/fileshare.conf
     sed -i.bak -e "s/post_max_size = 8M/post_max_size = 64M/" \
                -e "s/upload_max_filesize = 2M/upload_max_filesize = 92M/" \
@@ -976,7 +978,6 @@ cat >/etc/profile<<EOF
 echo " Welcome Back !"
 echo "    * Dashboard:  https://${PUBLICIP}"
 echo "    * Support:    https://plaza.quickbox.io"
-echo "    * Roadmap:    https://quickbox.io/roadmap"
 echo "    * Donate:     https://quickbox.io/donate"
 echo ""
 EOF
