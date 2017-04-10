@@ -1175,8 +1175,6 @@ echo -n "Username: "; read username
     ;;
   esac
 fi
-echo -n "writing $username to vsftpd.chroot_list..."
-echo "$username" >> /etc/vsftpd.chroot_list
 echo $OK
 
 echo -n "writing $username .rtorrent.rc using port-range (${PORT}-${PORTEND})..."
