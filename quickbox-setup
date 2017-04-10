@@ -932,17 +932,36 @@ function _ruconf() {
 function _installftpd() {
   apt-get purge -y vsftpd pure-ftpd >>"${OUTTO}" 2>&1
   apt-get autoremove >>"${OUTTO}" 2>&1
-  apt-get install -y vsftpd >>"${OUTTO}" 2>&1
+  apt-get install -y pure-ftpd >>"${OUTTO}" 2>&1
 }
 
 # function to configure pure-ftpd (32)
 function _ftpdconfig() {
   cp ${local_setup}templates/openssl.cnf.template /root/.openssl.cnf
+  mkdir -p /etc/ssl/private/
+  openssl req -config /root/.openssl.cnf -x509 -nodes -days 7300 -newkey rsa:1024 -keyout /etc/ssl/private/pure-ftpd.pem -out /etc/ssl/private/pure-ftpd.pem >/dev/null 2>&1
 
-  openssl req -config /root/.openssl.cnf -x509 -nodes -days 365 -newkey rsa:1024 -keyout /etc/ssl/private/vsftpd.pem -out /etc/ssl/private/vsftpd.pem >/dev/null 2>&1
-
-  cp ${local_setup}templates/vsftpd.conf.template /etc/vsftpd.conf
-  echo "" > /etc/vsftpd.chroot_list
+  #cp ${local_setup}templates/vsftpd.conf.template /etc/vsftpd.conf
+  echo "no" > /etc/pure-ftpd/conf/AllowAnonymousFXP
+  echo "ye" > /etc/pure-ftpd/conf/AllowUserFXP
+  echo "yes" > /etc/pure-ftpd/conf/AnonymousCantUpload
+  echo "no" > /etc/pure-ftpd/conf/AnonymousCanCreateDirs
+  echo "no" > /etc/pure-ftpd/conf/AnonymousOnly
+  echo "yes" > /etc/pure-ftpd/conf/AntiWarez
+  echo "5757" > /etc/pure-ftpd/conf/Bind
+  echo "yes" > /etc/pure-ftpd/conf/Daemonize
+  echo "no" > /etc/pure-ftpd/conf/DisplayDotFiles
+  echo "yes" > /etc/pure-ftpd/conf/DontResolve
+  echo "10" > /etc/pure-ftpd/conf/MaxClientsPerIP
+  echo "1000" > /etc/pure-ftpd/conf/MinUID
+  echo "yes" > /etc/pure-ftpd/conf/NoAnonymous
+  echo "yes" > /etc/pure-ftpd/conf/ProhibitDotFilesRead
+  echo "50000 50020" > /etc/pure-ftpd/conf/PassivePortRange
+  echo "yes" > /etc/pure-ftpd/conf/ProhibitDotFilesRead
+  echo "yes" > /etc/pure-ftpd/conf/UnixAuthentication
+  echo "2" > /etc/pure-ftpd/conf/TLS
+  
+  
 }
 
 # The following function makes necessary changes to Network and TZ settings needed for
@@ -1094,7 +1113,7 @@ cat >/root/information.info<<EOF
   https://${username}:${passwd}@${ip} (Also works for FTP:5757/SSH:4747)
 EOF
   rm -rf "$0" >>"${OUTTO}" 2>&1
-    for i in ssh apache2 php7.0-fpm vsftpd fail2ban quota memcached cron; do
+    for i in ssh apache2 php7.0-fpm pure-ftpd fail2ban quota memcached cron; do
       service $i restart >>"${OUTTO}" 2>&1
       systemctl enable $i >>"${OUTTO}" 2>&1
     done
@@ -1205,8 +1224,8 @@ echo -n "Adjusting fileupload & filemanager plugins ... ";_plugins & spinner $!;
 echo -n "Installing autodl-irssi ... ";_autodl & spinner $!;echo
 echo -n "Making ${username} directory structure ... ";_makedirs & spinner $!;echo
 echo -n "Writing ${username} rutorrent config.php file ... ";_ruconf & spinner $!;echo
-echo -n "Installing vsftpd ... ";_installftpd & spinner $!;echo
-echo -n "Setting up vsftpd ... ";_ftpdconfig & spinner $!;echo
+echo -n "Installing pureftpd ... ";_installftpd & spinner $!;echo
+echo -n "Setting up pureftpd ... ";_ftpdconfig & spinner $!;echo
 _quickstats;
 _quickconsole;
 echo -n "Setting irssi/rtorrent to start on boot ... ";_boot & spinner $!;echo;
